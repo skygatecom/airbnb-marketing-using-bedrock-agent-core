@@ -1,5 +1,28 @@
 # airbnb-marketing-using-bedrock-agent-core
 
+This is an event-driven AI assisted architecture.
+
+
+**Our Goal**
+
+**Create an intelligent assistant that:**
+
+**Watches approved Facebook Groups. **
+
+**Identifies genuine accommodation requests. **
+
+**Checks availability. **
+
+**Writes personalized replies. **
+
+**Helps market your Airbnb automatically (or with optional human approval). **
+
+
+**Our ultimate business goal is much simpler:**
+
+**Help convert Facebook accommodation inquiries into Airbnb bookings while reducing manual work.**
+
+
 Files with the .docx extension need the **Office Viewer** extension by Database Client.
 
 
