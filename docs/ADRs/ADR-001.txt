@@ -1,0 +1,14 @@
+Architecture Decision Record
+
+ADR-001
+
+Why EventBridge instead of Cron?
+
+Status:
+Accepted
+
+Reason:
+Serverless
+Scalable
+AWS-native
+Cost-effective
