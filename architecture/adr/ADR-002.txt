@@ -1,0 +1,13 @@
+Architecture Decision Record
+
+
+ADR-002
+
+Decision:
+Why do we adopt IAM Principle of Least Priviledge?
+By granting users and systems only the bare minimum permissions needed for their tasks, 
+businesses also protect sensitive data from insider errors, minimize attack surfaces, 
+and ensure strict regulatory compliance.
+
+Status:
+Accepted
