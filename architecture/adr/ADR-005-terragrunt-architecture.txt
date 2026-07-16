@@ -1,0 +1,46 @@
+Architecture Decision Record
+
+ADR-005
+
+Terragrunt Architecture and Environment Composition
+
+Status:
+Accepted
+
+Context:
+The platform uses Terraform modules for AWS resource provisioning. As module count and
+environment count increase, we need a consistent composition model to avoid duplicated
+configuration, unclear dependencies, and unsafe promotion workflows.
+
+Decision:
+We will adopt a layered Terragrunt architecture with:
+- Root shared configuration at infrastructure/terragrunt/terragrunt.hcl
+- Environment directories for dev, test, and prod
+- Domain stack directories inside each environment (networking, security, shared,
+  application)
+
+Terragrunt will define environment-specific inputs, dependency ordering, and remote
+state conventions while Terraform modules remain reusable and environment-agnostic.
+
+Dependency flow will prioritize foundational stacks before application stacks.
+State will be isolated per environment and stack.
+
+Reason:
+This architecture improves consistency, reduces copy-paste, and makes plan/apply
+workflows safer across environments.
+
+Consequences:
+- Better operational consistency across environments
+- Clear dependency boundaries between stacks
+- Easier promotion from dev to test to prod
+- Additional governance needed to prevent ad hoc layout drift
+- Slight onboarding overhead for contributors unfamiliar with Terragrunt layering
+
+References:
+- docs/platform/terraform-platform.md
+- docs/platform/terragrunt-architecture.md
+- architecture/adr/ADR-004-terraform-terragrunt-platform.txt
+
+Notes:
+- If a stack does not exist in an environment, that exception must be documented.
+- Environment and stack naming must remain stable to protect state path continuity.

@@ -1,0 +1,50 @@
+Architecture Decision Record
+
+ADR-006
+
+Bootstrap Platform Layer
+
+Status:
+Accepted
+
+Context:
+Terraform and Terragrunt workflows require foundational primitives before normal
+environment provisioning can run safely. These prerequisites include backend-related
+resources, execution identities, and shared platform conventions.
+
+Without a dedicated bootstrap step, teams risk inconsistent manual setup, hidden
+dependencies, and fragile initialization flows.
+
+Decision:
+We will maintain a dedicated bootstrap layer in infrastructure/terraform/bootstrap/
+that provisions shared prerequisites required by downstream Terraform and Terragrunt
+stacks.
+
+Bootstrap scope includes backend foundations and execution IAM boundaries, and excludes
+application-specific resources.
+
+Bootstrap must be applied before environment composition in infrastructure/terragrunt/
+and treated as a highly controlled, low-frequency change surface.
+
+Reason:
+A dedicated bootstrap layer makes platform initialization repeatable, auditable, and
+secure while reducing setup drift and operational surprises.
+
+Consequences:
+- Clear separation between platform prerequisites and workload infrastructure
+- Safer environment provisioning with explicit prerequisites
+- Better governance for sensitive backend and IAM changes
+- Additional lifecycle step during initial platform setup
+- Need to document bootstrap outputs and downstream consumption contracts
+
+References:
+- docs/platform/bootstrap-platform.md
+- docs/platform/terraform-platform.md
+- docs/platform/terragrunt-architecture.md
+- architecture/adr/ADR-004-terraform-terragrunt-platform.txt
+- architecture/adr/ADR-005-terragrunt-architecture.txt
+
+Notes:
+- Bootstrap changes should be reviewed with elevated scrutiny.
+- If environment isolation is account-based, bootstrap runs per account.
+- Structural bootstrap changes require ADR updates.
