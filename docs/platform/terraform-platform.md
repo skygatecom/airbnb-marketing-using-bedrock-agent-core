@@ -107,7 +107,7 @@ Production applies should require explicit human approval.
 
 - Keep reusable Terraform modules in `infrastructure/terraform/`.
 - Keep environment orchestration and stack composition in
-	`infrastructure/terragrunt/`.
+  `infrastructure/terragrunt/`.
 - Document major platform design changes in ADRs.
 
 ## Summary
