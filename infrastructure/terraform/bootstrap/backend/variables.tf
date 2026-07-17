@@ -1,9 +1,4 @@
-variable "aws_region" {
-  description = "AWS region for bootstrap resources."
-  type        = string
-}
-
-variable "backend_bucket_name" {
+variable "bucket_name" {
   description = "Globally unique S3 bucket name for Terraform remote state."
   type        = string
 }
@@ -14,7 +9,7 @@ variable "project" {
 }
 
 variable "environment" {
-  description = "Environment name used in standard tags (for example: shared, dev, test, prod)."
+  description = "Environment name (for example: dev, test, prod) used in standard tags."
   type        = string
 }
 
@@ -24,19 +19,19 @@ variable "owner" {
 }
 
 variable "additional_tags" {
-  description = "Additional tags merged with standard tags."
+  description = "Additional tags to merge with standard tags."
   type        = map(string)
   default     = {}
 }
 
 variable "force_destroy" {
-  description = "Whether to allow deleting the backend bucket when it contains objects."
+  description = "Whether to allow deleting the bucket even when it contains objects."
   type        = bool
   default     = false
 }
 
 variable "sse_algorithm" {
-  description = "SSE algorithm for the backend bucket encryption. Use AES256 or aws:kms."
+  description = "SSE algorithm for bucket encryption. Use AES256 or aws:kms."
   type        = string
   default     = "AES256"
 
@@ -47,7 +42,7 @@ variable "sse_algorithm" {
 }
 
 variable "kms_key_id" {
-  description = "KMS key ID or ARN when using aws:kms encryption."
+  description = "KMS key ID or ARN for SSE-KMS. Required when sse_algorithm is aws:kms."
   type        = string
   default     = null
 

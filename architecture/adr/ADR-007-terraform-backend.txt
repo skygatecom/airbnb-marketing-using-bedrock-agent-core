@@ -1,0 +1,49 @@
+Architecture Decision Record
+
+ADR-007
+
+Terraform Remote Backend on S3
+
+Status:
+Accepted
+
+Context:
+Terraform state is a critical control-plane asset and must be stored centrally with
+security and recoverability controls. Local state is not suitable for multi-user
+platform workflows and introduces drift and collaboration risks.
+
+The bootstrap layer already provisions platform prerequisites, making it the correct
+place to provision backend foundations.
+
+Decision:
+We will provision the Terraform remote backend bucket through the bootstrap backend
+module at infrastructure/terraform/bootstrap/backend/.
+
+The backend bucket must include:
+- Versioning enabled
+- Server-side encryption enabled
+- Full S3 public access block enabled
+- Standard platform tags for ownership and traceability
+
+Encryption defaults to AES256, with support for aws:kms when a kms_key_id is provided.
+
+Reason:
+This decision centralizes Terraform state management and enforces secure defaults for
+state durability, confidentiality, and access posture.
+
+Consequences:
+- More reliable collaboration through shared remote state
+- Improved recoverability due to state versioning
+- Reduced exposure risk through mandatory public access blocking
+- Additional operational responsibility for backend lifecycle management
+- Need for a follow-up locking mechanism (DynamoDB) for complete state coordination
+
+References:
+- docs/platform/terraform-backend.md
+- docs/platform/bootstrap-platform.md
+- architecture/adr/ADR-006-bootstrap-platform.txt
+
+Notes:
+- Backend changes are high-impact and require explicit review.
+- force_destroy should remain false except in controlled non-production teardown cases.
+- Future hardening should add a DynamoDB lock table and document migration steps.
