@@ -1,0 +1,47 @@
+Architecture Decision Record
+
+ADR-004
+
+Terraform + Terragrunt Platform Strategy
+
+Status:
+Accepted
+
+Context:
+This project needs a repeatable way to provision AWS infrastructure across multiple
+environments while keeping configuration understandable for contributors and
+maintainers.
+
+Using Terraform alone provides strong declarative provisioning, but managing many
+environment variations can lead to duplicated configuration and inconsistent workflows.
+
+Decision:
+We will use Terraform as the infrastructure provisioning engine and Terragrunt as the
+orchestration layer for environment composition.
+
+Terraform modules will be organized under infrastructure/terraform/ and Terragrunt
+environment and stack orchestration will be organized under infrastructure/terragrunt/.
+
+Environment strategy will follow isolated environments (dev, test/staging, prod) with
+separate state per environment and plan-before-apply workflows.
+
+Reason:
+This approach gives us:
+- Mature, declarative AWS infrastructure provisioning
+- Reusable module patterns
+- Better multi-environment consistency with less duplication
+- Clearer operational guardrails for promotion and change review
+
+Consequences:
+- Improved reproducibility and maintainability of infrastructure
+- Easier environment scaling and composition over time
+- Additional toolchain complexity (Terraform plus Terragrunt)
+- Need to document and enforce common execution conventions
+
+References:
+- docs/platform/terraform-platform.md
+
+Notes:
+- If a workflow can remain simple with a single Terraform module, keep it simple.
+- Terragrunt should standardize composition and shared settings, not hide critical
+  infrastructure behavior.
